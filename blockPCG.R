@@ -78,7 +78,9 @@ p1 <- qplot(1:dim(resids1)[1],resids1[,1], ylab = 'Residual', xlab = 'Iteration'
 p1
 
 
-# The algorithm appears to get to the solution fairly quickly in terms of the number of iterations required, but the time require to evaluate each iteration makes it quite slow.
+# The algorithm appears to get to the solution fairly quickly in terms of the number of iterations required, 
+# but the time require to evaluate each iteration makes it quite slow.
+
 # Let's use profvis to figure out what parts are slowing it down
 install.packages("profvis")
 library(profvis)
@@ -116,10 +118,12 @@ profvis({
 })
 
 
-# Looks like the vast majority of time is spent calculating A%*%p. Since A is a Toeplitz matrix, we can put it in the corner of a Circulant matrix and use Fast Fourier Transforms to get the product, rather than doing the multiplications directly.
+# Looks like the vast majority of time is spent calculating A%*%p. Since A is a Toeplitz matrix, 
+# we can put it in the corner of a Circulant matrix and use Fast Fourier Transforms to get the product, 
+# rather than doing the multiplications directly.
 
 
-require(pracma) # For inverse fast fourier transform
+require(pracma) # for the ifft  (inverse fast fourier transform) function
 blockPCG2 <- function(A,b,numits,blocksize) {
     B <- solve(A[1:blocksize,1:blocksize])
     n <- dim(A)[1]
@@ -161,7 +165,8 @@ blockPCG2 <- function(A,b,numits,blocksize) {
 }
 
 # Let's use the microbenchmark to see how much faster the new function is
-# Note: Since the microbenchmark function works by running each algorithm multiple times, the function may take a long time (~2 mins) to run
+# Note: Since the microbenchmark function works by running each algorithm multiple times, 
+# the function may take a long time (up to 2 mins) to run
 require(microbenchmark)
 bench <- microbenchmark(blockPCG(A,b,50,8),blockPCG2(A,b,50,8), solve(A,b), times = 10)
 medians <- summary(bench)[5]
@@ -170,7 +175,8 @@ times_faster <- medians[1,]/medians[2,]
 times_faster
 times_faster_vs_solve <- medians[3,]/medians[2,]
 times_faster_vs_solve
-# The outcome of this benchmark will of course depend on the machine on which it runs, but it looks like avoiding the matrix-vector product calculation A%*%p makes the algorithm about 20x faster! 
+# The outcome of this benchmark will of course depend on the machine on which it runs, 
+# but it looks like avoiding the matrix-vector product calculation A%*%p makes the algorithm about 20x faster! 
 # The original algorithm was already faster than the built-in solve() function, and quickPCG2 is about 40x faster than solve()!
 
 
