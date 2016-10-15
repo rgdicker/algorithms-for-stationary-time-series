@@ -1,4 +1,5 @@
-# This function solves a Toeplitz system Ax=b using the Preconditioned Conjugate Gradient method, where the preconditioner is a block diagonal version of A
+# This function solves a Toeplitz system Ax=b using the Preconditioned Conjugate Gradient method, 
+# where the preconditioner is a block diagonal version of A
 
 
 blockPCG <- function(A,b,numits,blocksize) {
@@ -46,6 +47,7 @@ b <- L1%*%z
 # To evaluate the performance of the algorithm, I run it using various block sizes and look at the residuals over each iteration
 
 # Create residual calculator
+
 require(ltsa)
 resids <- function(X,A,b) {
     resids <- 0
