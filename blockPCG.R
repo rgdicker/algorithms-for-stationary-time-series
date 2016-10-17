@@ -81,7 +81,7 @@ p1
 
 
 # The algorithm appears to get to the solution fairly quickly in terms of the number of iterations required, 
-# but the time require to evaluate each iteration makes it quite slow.
+# but the time required to evaluate each iteration makes it quite slow.
 
 # Let's use profvis to figure out what parts are slowing it down
 install.packages("profvis")
@@ -137,6 +137,7 @@ blockPCG2 <- function(A,b,numits,blocksize) {
         } 
         xt
     }
+    # New Toeplitz-specific multiplication function
     toepmult <- function(A,v) {
         n <- dim(A)[1]
         x <- as.matrix(c(A[1,],0,A[1,][n:2]))
@@ -177,9 +178,9 @@ times_faster <- medians[1,]/medians[2,]
 times_faster
 times_faster_vs_solve <- medians[3,]/medians[2,]
 times_faster_vs_solve
-# The outcome of this benchmark will of course depend on the machine on which it runs, 
+# The outcome of this benchmark will of course vary according to the properties of the machine on which it runs, 
 # but it looks like avoiding the matrix-vector product calculation A%*%p makes the algorithm about 20x faster! 
-# The original algorithm was already faster than the built-in solve() function, and quickPCG2 is about 40x faster than solve()!
+# The original algorithm was already faster than the built-in solve() function, so quickPCG2 is about 40x faster than solve()!
 
 
 # Let's look at how this algorithm performs for a variety of systems Ax=b
