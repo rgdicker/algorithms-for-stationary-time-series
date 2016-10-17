@@ -1,6 +1,6 @@
 # Here I implement the Durbin-Levinson algorithm for solving Toeplitz systems and
 # compare it to my blockPCG implementation to see which is faster and which is 
-# more precise
+# more precise.
 
 # It looks like blockPCG is 5-10 times faster than Durbin-levinson, and Durbin-Levinson is more accurate
 # However, the blockPCG method results in a solution whose distance from the true solution is less
