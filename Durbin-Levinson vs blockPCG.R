@@ -2,7 +2,7 @@
 # compare it to my blockPCG implementation to see which is faster and which is 
 # more precise.
 
-# It looks like blockPCG is 5-10 times faster than Durbin-levinson, and Durbin-Levinson is more accurate
+# It looks like blockPCG is 5-10 times faster than Durbin-levinson, and Durbin-Levinson is more accurate.
 # However, the blockPCG method results in a solution whose distance from the true solution is less
 # than 10^(-18), so increased accuracy is not useful.
 
